@@ -6,6 +6,11 @@ static FILE uart_stdout = FDEV_SETUP_STREAM(bluetooth_putchar, NULL, _FDEV_SETUP
 
 volatile Mode mode = STOP;
 
+/*
+	sätter läge på joysticken. 
+	Detta kommer från erasern som konfiremerar att
+	meddelande har mottagits.
+*/
 ISR(USART_RX_vect){
 	mode = UDR0 - 48;
 }
@@ -30,6 +35,10 @@ void bluetooth_putchar(uint8_t data, FILE *stream) {
 	UDR0 = data;
 }
 
+/*
+	skickar vilket läge som systemet är i just nu.
+	Denna metod körs va 100 ms.
+*/
 void bluetooth_send(void){
 	static uint8_t count = 0;
 	
@@ -55,6 +64,9 @@ void bluetooth_send(void){
 	}
 }
 
+/*
+	Returnerar systemets läge
+*/
 Mode bluetooth_get_mode(void){
 	return mode;
 }

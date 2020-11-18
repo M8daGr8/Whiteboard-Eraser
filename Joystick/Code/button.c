@@ -6,19 +6,39 @@
 volatile State safetyBtnState = RELEASED;
 volatile State cleanBtnState = RELEASED;
 	
+/*
+	Skulle ha tänkt på vilka register som jag valde på atmegan för detta.
+	detta blev ganska repetativ kod eftersom jag inte listade ut ett sätt
+	att köra olika ports på ett smart sätt.
+
+	TODO:
+		[ ]göra denna fil mindre och finare.
+*/
+
 void button_init(void){
 	DDRB &= ~(1 << DDB2);
 	DDRD &= ~(1 << DDD3);
 }
 
+/*
+	Returnerar pressed om > 0 (tryckt)
+	annar released.
+*/
 State button_read_saftey(void){
 	return (PINB & (1 << STY_BTN)) ? PRESSED : RELEASED;
 }
 
+/*
+	Returnerar pressed om > 0 (tryckt)
+	annar released.
+*/
 State button_read_clean(void){
 	return (PIND & (1 << CLEAN_BTN)) ? PRESSED : RELEASED;
 }
 
+/*
+	denna debouncar och uppdaterar buttonstate för säkerhetsknappen.
+*/
 void button_update_safety_state(void){
 	static uint8_t count = 0;
 	static State lastState = RELEASED;
@@ -35,6 +55,10 @@ void button_update_safety_state(void){
 	lastState = currentState;
 }
 
+/*
+	denna debouncar och uppdaterar buttonstate för clean knappen.
+	väldigt lik den övre hehe.
+*/
 void button_update_clean_state(void){
 	static uint8_t count = 0;
 	static State lastState = RELEASED;
@@ -51,10 +75,16 @@ void button_update_clean_state(void){
 	lastState = currentState;
 }
 
+/*
+	Returnerar säkerhetsknappens läge.
+*/
 uint8_t button_safety_isPressed(void){
 	return (safetyBtnState == PRESSED);
 }
 
+/*
+	returnerar clean knappens läge.
+*/
 uint8_t button_clean_isPressed(void){
 	return (cleanBtnState == PRESSED);
 }

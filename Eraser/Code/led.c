@@ -19,6 +19,15 @@ void led_toggle(void){
 	PORTB ^= (1 << LED);
 }
 
+/*
+	Väljer hur leden kommer bete sig beroende på vilket läge
+	systemet är i.
+
+	Denna körs var 100 ms.
+	Dvs.
+		"STOP": blink 1 sek
+		"FREE": blink 100 ms
+*/
 void led_show_mode(Mode mode){
 	static uint8_t count = 0;
 	

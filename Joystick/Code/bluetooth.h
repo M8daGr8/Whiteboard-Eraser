@@ -12,6 +12,12 @@
 #include "button.h"
 #include "potentiometer.h"
 
+/*
+	CLEAN gör inget för tillfället.
+
+	Systemet sätts till CONNECTING automatiskt
+	vid disconnect.
+*/
 typedef enum{
 	STOP = 0,
 	FREE = 1,

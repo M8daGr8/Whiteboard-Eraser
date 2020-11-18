@@ -20,6 +20,10 @@ void led_toggle(uint8_t pin){
 	PORTD ^= (1 << pin);
 }
 
+/*
+	tar in vilket state säkerhetsknappen
+	är i och tänder / släcker led.
+*/
 void led_show_safety(uint8_t btnState){
 	if(btnState)
 		led_low(STY_LED);
@@ -27,6 +31,15 @@ void led_show_safety(uint8_t btnState){
 		led_high(STY_LED);
 }
 
+/*
+	Väljer hur leden kommer bete sig beroende på vilket läge
+	systemet är i.
+
+	Denna körs var 100 ms.
+	Dvs.
+		"STOP": blink 1 sek
+		"FREE": blink 100 ms
+*/
 void led_show_mode(Mode mode){
 	static uint8_t count = 0;
 	

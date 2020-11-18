@@ -1,10 +1,22 @@
 #include "timer.h"
 
+/*
+	Denna körs varje 100ms
+	Hanterar ledn som visar systemets läge och 
+	skickar läge till suddet
+*/
 ISR(TIMER1_COMPA_vect){
 	led_show_mode(bluetooth_get_mode());
 	bluetooth_send();
 }
 
+/*
+	Denna körs varje 10ms.
+	
+	Påbörjar en adc conversion
+	uppdaterar knappstates
+	hanterar säkerhets led.
+*/
 ISR(TIMER2_COMPA_vect){
 	potentiometer_adc_start();
 	button_update_safety_state();
@@ -24,7 +36,7 @@ void timer1_init(void) {
 	// Startar Timer0 med 256 prescaler.
 	TCCR1B |= (1 << CS12);
 	
-	// S�tter Timer0 compare value A till 100 ms
+	// S�tter Timer0 compare value A till 100 ms
 	OCR1A = 0xC35;
 	
 	// Startar interrupt
@@ -43,7 +55,7 @@ void timer2_init(void){
 	// Startar Timer2 med 1024 prescaler.
 	TCCR2B |= (1 << CS22) | (1 << CS21) | (1 << CS20);
 	
-	// S�tter Timer2 A compare value A till ca 10 ms
+	// S�tter Timer2 A compare value A till ca 10 ms
 	OCR2A = 0x4E;
 	
 	// Startar interrupt

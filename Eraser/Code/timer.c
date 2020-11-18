@@ -1,17 +1,26 @@
 #include "timer.h"
 
+/*
+	var 100 ms körs denna.
+	
+	hanterar led.
+*/
 ISR(TIMER1_COMPA_vect){
 	led_show_mode(bluetooth_get_mode());
 }
 
+/*
+	Denna körs var 0.1 ms.
+	kollar läge och stoppar drivers om läget är annat än "FREE"
+
+	TODO:
+		[ ] fixa CLEAN mode.
+*/
 ISR(TIMER2_COMPA_vect){
-	Mode mode = bluetooth_get_mode();
-	
-// 	if(mode != FREE)
-// 		drivers_stop();
-// 	else
-	
-	drivers_go(bluetooth_get_joystick());
+ 	if(bluetooth_get_mode() != FREE)
+ 		drivers_stop();
+ 	else
+		drivers_go(bluetooth_get_joystick());
 }
 
 /*
@@ -26,7 +35,7 @@ void timer1_init(void) {
 	// Startar Timer0 med 256 prescaler.
 	TCCR1B |= (1 << CS12);
 	
-	// S�tter Timer0 compare value A till 100 ms
+	// S�tter Timer0 compare value A till 100 ms
 	OCR1A = 0x186A;
 	
 	// Startar interrupt
@@ -45,7 +54,7 @@ void timer2_init(void){
 	// Startar Timer2 med 64 prescaler.
 	TCCR2B |= (1 << CS22);
 	
-	// S�tter Timer2 A compare value A till 0.1 ms
+	// S�tter Timer2 A compare value A till 0.1 ms
 	OCR2A = 0x19;
 	
 	// Startar interrupt

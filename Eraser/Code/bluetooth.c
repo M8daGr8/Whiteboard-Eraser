@@ -12,6 +12,16 @@ volatile Mode mode = STOP;
 
 volatile Joystick joystick = { 0, 0 };
 
+/*
+	Kollar input från joysticken, om de "joystick controlled" så sparas
+	X och Y axis värderna i en struct.
+
+	Skickar tillbaka vilket läge systemet är i för att konfirmera för joysticken
+	att erasern har fått meddelandet.
+
+	TODO:
+		[ ]en egen fil med metoder för joystick inputs.
+*/
 ISR(USART_RX_vect){
 	static uint8_t collectingValues = 0;
 	
@@ -73,15 +83,24 @@ void bluetooth_putchar(uint8_t data, FILE *stream) {
 	UDR0 = data;
 }
 
+/*
+	Rensar structen "joystick" / sätter värdena till 0
+*/
 void bluetooth_clear_data(void){
 	joystick.xAxis = 0;
 	joystick.yAxis = 0;
 }
 
+/*
+	Returnerar vilket läge systemet är i.
+*/
 Mode bluetooth_get_mode(void){
 	return mode;
 }
 
+/*
+	returnerar structen joystick
+*/
 Joystick bluetooth_get_joystick(void){
 	return joystick;
 }

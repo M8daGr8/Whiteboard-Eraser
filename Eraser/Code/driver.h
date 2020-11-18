@@ -6,11 +6,17 @@
 
 #include "bluetooth.h"
 
+/*
+	Direction för X axis
+*/
 typedef enum{
 	FORWARD = 0,
 	BACKWARD = 1
 }XDir;
 
+/*
+	Direction för Y axis
+*/
 typedef enum{
 	UP = 0,
 	DOWN = 1
